@@ -94,12 +94,12 @@ class Command(BaseCommand):
         parser.add_argument(
             '--updatepermissions',
             dest="updatepermissions",
-            default='True',
+            default=False,
             help="Update only the layer permissions. Does not regenerate styles and thumbnails")
         parser.add_argument(
             '--updatethumbnails',
             dest="updatethumbnails",
-            default='True',
+            default=False,
             help="Update only the layer styles and thumbnails. Does not re-sync security rules.")
 
     def handle(self, **options):
