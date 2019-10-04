@@ -357,7 +357,7 @@ class UploaderBase(GeoNodeLiveTestSupport):
 
     def upload_folder_of_files(self, folder, final_check, session_ids=None):
 
-        mains = ('.tif', '.shp', '.zip')
+        mains = ('.tif', '.shp', '.zip', '.asc')
 
         def is_main(_file):
             _, ext = os.path.splitext(_file)
@@ -527,6 +527,16 @@ class TestUpload(UploaderBase):
         zf.close()
         self.upload_file(abspath, self.complete_upload,
                          check_name='san_andres_y_providencia_poi')
+
+    def test_ascii_grid_upload(self):
+        """ Tests the layers that ASCII grid files are uploaded along with aux"""
+        PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+        thelayer_path = os.path.join(
+            PROJECT_ROOT,
+            'data/arc_sample')
+        self.upload_folder_of_files(
+            thelayer_path,
+            self.check_layer_complete)
 
     def test_invalid_layer_upload(self):
         """ Tests the layers that are invalid and should not be uploaded"""
