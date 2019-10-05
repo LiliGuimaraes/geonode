@@ -223,7 +223,7 @@ class GeoNodeCSWTest(GeoNodeBaseTestSupport):
             logger.debug([Decimal(record.bbox.minx), Decimal(record.bbox.miny),
                           Decimal(record.bbox.maxx), Decimal(record.bbox.maxy)])
             self.assertEquals(Decimal(record.bbox.minx), Decimal('-81.859356'))
-            self.assertEquals(Decimal(record.bbox.miny), Decimal('12.1665322'))
+            self.assertEquals(Decimal(record.bbox.miny), Decimal('12.166532'))
             self.assertEquals(Decimal(record.bbox.maxx), Decimal('-81.356409'))
             self.assertEquals(Decimal(record.bbox.maxy), Decimal('13.396306'))
 

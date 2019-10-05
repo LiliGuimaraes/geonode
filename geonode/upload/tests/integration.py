@@ -530,13 +530,16 @@ class TestUpload(UploaderBase):
 
     def test_ascii_grid_upload(self):
         """ Tests the layers that ASCII grid files are uploaded along with aux"""
+        session_ids = []
+
         PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
         thelayer_path = os.path.join(
             PROJECT_ROOT,
             'data/arc_sample')
         self.upload_folder_of_files(
             thelayer_path,
-            self.check_layer_complete)
+            self.complete_raster_upload,
+            session_ids=session_ids)
 
     def test_invalid_layer_upload(self):
         """ Tests the layers that are invalid and should not be uploaded"""
@@ -563,7 +566,8 @@ class TestUpload(UploaderBase):
         invalid_path = os.path.join(BAD_DATA)
         self.upload_folder_of_files(
             invalid_path,
-            self.check_invalid_projection, session_ids=session_ids)
+            self.check_invalid_projection,
+            session_ids=session_ids)
 
         # Finally try to upload a good file anc check the session IDs
         fname = os.path.join(GOOD_DATA, 'raster', 'relief_san_andres.tif')
