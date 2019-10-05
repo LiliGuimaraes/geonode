@@ -224,6 +224,8 @@ class PermissionLevelMixin(object):
                     else:
                         assign_perm(perm, group, self.get_self_resource())
                 # Set the GeoFence Rules
+                if group.name == 'anonymous':
+                    group = None
                 if settings.OGC_SERVER['default'].get("GEOFENCE_SECURITY_ENABLED", False):
                     if self.polymorphic_ctype.name == 'layer':
                         if getattr(settings, 'DELAYED_SECURITY_SIGNALS', False):
