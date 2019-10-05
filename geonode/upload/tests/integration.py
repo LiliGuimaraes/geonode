@@ -545,10 +545,13 @@ class TestUpload(UploaderBase):
         """ Tests the layers that are invalid and should not be uploaded"""
         # this issue with this test is that the importer supports
         # shapefiles without an .prj
+        session_ids = []
+
         invalid_path = os.path.join(BAD_DATA)
         self.upload_folder_of_files(
             invalid_path,
-            self.check_invalid_projection)
+            self.complete_raster_upload,
+            session_ids=session_ids)
 
     def test_coherent_importer_session(self):
         """ Tests that the upload computes correctly next session IDs"""
@@ -566,7 +569,7 @@ class TestUpload(UploaderBase):
         invalid_path = os.path.join(BAD_DATA)
         self.upload_folder_of_files(
             invalid_path,
-            self.check_invalid_projection,
+            self.complete_raster_upload,
             session_ids=session_ids)
 
         # Finally try to upload a good file anc check the session IDs
