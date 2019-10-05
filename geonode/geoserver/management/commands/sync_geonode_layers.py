@@ -42,7 +42,7 @@ def sync_geonode_layers(ignore_errors, filter, username, updatepermissions, upda
         try:
             count += 1
             print 'Syncing layer %s/%s: %s' % (count, layers_count, layer.name)
-            if ast.literal_eval(updatepermissions):
+            if updatepermissions:
                 print 'Syncing permissions...'
                 # sync permissions in GeoFence
                 perm_spec = json.loads(_perms_info_json(layer))
@@ -50,7 +50,7 @@ def sync_geonode_layers(ignore_errors, filter, username, updatepermissions, upda
                 layer.set_permissions(perm_spec)
                 # recalculate the layer statistics
                 set_attributes_from_geoserver(layer, overwrite=True)
-            if ast.literal_eval(updatethumbnails):
+            if updatethumbnails:
                 print 'Regenerating thumbnails...'
                 layer.save()
         except Exception:
@@ -60,6 +60,8 @@ def sync_geonode_layers(ignore_errors, filter, username, updatepermissions, upda
             if ignore_errors:
                 pass
             else:
+                import traceback
+                traceback.print_exc()
                 print 'Stopping process because --ignore-errors was not set and an error was found.'
                 return
     print 'There are %s layers which could not be updated because of errors' % len(layer_errors)
@@ -93,11 +95,13 @@ class Command(BaseCommand):
             help="Only update data owned by the specified username")
         parser.add_argument(
             '--updatepermissions',
+            action='store_true',
             dest="updatepermissions",
             default=False,
             help="Update only the layer permissions. Does not regenerate styles and thumbnails")
         parser.add_argument(
             '--updatethumbnails',
+            action='store_true',
             dest="updatethumbnails",
             default=False,
             help="Update only the layer styles and thumbnails. Does not re-sync security rules.")
